@@ -1,0 +1,119 @@
+
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: essays
+    label: Эсселер
+    type: collection
+    path: src/content/essays
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, date, category, draft]
+    fields:
+      - name: title
+        label: Тақырыбы
+        type: string
+        required: true
+      - name: description
+        label: Қысқаша сипаттама
+        type: text
+        required: true
+      - name: date
+        label: Жарияланған күні
+        type: date
+        required: true
+      - name: category
+        label: Санат
+        type: string
+        required: true
+      - name: tags
+        label: Тегтер
+        type: string
+        list: true
+      - name: draft
+        label: Жоба ретінде сақтау
+        type: boolean
+      - name: body
+        label: Эссе мәтіні
+        type: rich-text
+
+  - name: notes
+    label: Зерттеу жазбалары
+    type: collection
+    path: src/content/notes
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, date, draft]
+    fields:
+      - name: title
+        label: Тақырыбы
+        type: string
+        required: true
+      - name: description
+        label: Қысқаша сипаттама
+        type: text
+        required: true
+      - name: date
+        label: Күні
+        type: date
+        required: true
+      - name: tags
+        label: Тегтер
+        type: string
+        list: true
+      - name: draft
+        label: Жоба ретінде сақтау
+        type: boolean
+      - name: body
+        label: Жазба мәтіні
+        type: rich-text
+
+  - name: resources
+    label: Материалдар
+    type: collection
+    path: src/content/resources
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, grade, language, type]
+    fields:
+      - name: title
+        label: Материал атауы
+        type: string
+        required: true
+      - name: description
+        label: Сипаттамасы
+        type: text
+        required: true
+      - name: date
+        label: Күні
+        type: date
+        required: true
+      - name: grade
+        label: Сынып
+        type: string
+        required: true
+      - name: language
+        label: Тілі
+        type: string
+        required: true
+      - name: type
+        label: Материал түрі
+        type: string
+        required: true
+      - name: file
+        label: Жүктеп алуға арналған файл
+        type: file
+      - name: draft
+        label: Жоба ретінде сақтау
+        type: boolean
+      - name: body
+        label: Қосымша ақпарат
+        type: rich-text
