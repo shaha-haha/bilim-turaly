@@ -1,0 +1,5 @@
+---
+const {entries,base}=Astro.props;
+const date=(d:Date)=>new Intl.DateTimeFormat('kk-KZ',{day:'numeric',month:'long',year:'numeric'}).format(d);
+---
+<div>{entries.map((entry:any)=><a class="item" href={`/${base}/${entry.id}/`}><div><span class="meta">{date(entry.data.date)} · {entry.data.category || (base==='notes'?'Зерттеу жазбасы':'Материал')}</span><h3>{entry.data.title}</h3><p>{entry.data.description}</p></div><span class="arrow" aria-hidden="true">↗</span></a>)}</div>

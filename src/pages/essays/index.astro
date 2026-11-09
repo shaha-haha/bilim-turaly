@@ -1,0 +1,5 @@
+---
+import Base from '../../layouts/Base.astro';import EntryList from '../../components/EntryList.astro';import {getCollection} from 'astro:content';
+const entries=(await getCollection('essays',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+---
+<Base title="Эсселер"><div class="wrap"><header class="page-head"><span class="eyebrow">Ойлар мен талдаулар</span><h1 class="page-title">Эсселер</h1><p class="lede">Білім беру саясаты, мектеп мәдениеті, кәсіби дербестік және оқыту туралы ойлар.</p></header><section class="section"><EntryList entries={entries} base="essays"/></section></div></Base>

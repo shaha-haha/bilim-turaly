@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import EntryList from '../components/EntryList.astro';
+import {getCollection} from 'astro:content';
+const essays=(await getCollection('essays',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+const notes=(await getCollection('notes',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+---
+<Base title="Басты бет"><div class="wrap"><section class="hero"><span class="eyebrow">Білім · Зерттеу · Тәжірибе</span><h1>Білім туралы ойлануға арналған кеңістік.</h1><p>Білім беру саясаты, мектеп тәжірибесі және педагогтердің кәсіби дербестігі туралы эсселер, зерттеу жазбалары мен пайдалы материалдар.</p></section>{essays.length>0&&<section class="feature"><span class="eyebrow">Таңдаулы эссе</span><h2><a href={`/essays/${essays[0].id}/`}>{essays[0].data.title} ↗</a></h2><p>{essays[0].data.description}</p><a class="pill-link" href={`/essays/${essays[0].id}/`}>Эссені оқу →</a></section>}<section class="section"><div class="section-head"><h2>Соңғы эсселер</h2><a href="/essays/">Барлық эсселер →</a></div><EntryList entries={essays.slice(0,4)} base="essays"/></section><section class="section"><div class="section-head"><h2>Зерттеу жазбалары</h2><a href="/notes/">Барлық жазбалар →</a></div><EntryList entries={notes.slice(0,3)} base="notes"/></section><section class="section"><div class="section-head"><h2>Мұғалімдерге арналған материалдар</h2><a href="/resources/">Кітапханаға өту →</a></div><p class="lede">Дереккөздерді талдау, сыни ойлау және дәлелді пікір қалыптастыруға арналған ресурстар.</p></section></div></Base>

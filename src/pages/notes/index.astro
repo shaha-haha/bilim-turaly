@@ -1,0 +1,5 @@
+---
+import Base from '../../layouts/Base.astro';import EntryList from '../../components/EntryList.astro';import {getCollection} from 'astro:content';
+const entries=(await getCollection('notes',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+---
+<Base title="Зерттеу жазбалары"><div class="wrap"><header class="page-head"><span class="eyebrow">Research notes</span><h1 class="page-title">Зерттеу жазбалары</h1><p class="lede">Ғылыми мақалалар мен халықаралық есептер туралы қысқаша жазбалар.</p></header><section class="section"><EntryList entries={entries} base="notes"/></section></div></Base>

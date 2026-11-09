@@ -1,0 +1,7 @@
+---
+import '../styles/global.css';
+const {title='Білім туралы',description='Білім беру, зерттеу және педагогикалық тәжірибе туралы авторлық кеңістік.'}=Astro.props;
+const path=Astro.url.pathname;
+const nav=[['/','Басты бет'],['/essays/','Эсселер'],['/resources/','Материалдар'],['/notes/','Зерттеу жазбалары'],['/about/','Автор туралы']];
+---
+<!doctype html><html lang="kk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#ffffff"/><meta property="og:type" content="website"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><title>{title} | Білім туралы</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"/></head><body><a class="skip" href="#main">Негізгі мазмұнға өту</a><header class="site-header"><div class="wrap nav"><a class="brand" href="/">Білім туралы<span style="color:#7b927f">.</span></a><nav class="nav-links" aria-label="Негізгі навигация">{nav.map(([href,label])=><a href={href} aria-current={path===href?'page':undefined}>{label}</a>)}</nav></div></header><main id="main"><slot/></main><footer class="footer"><div class="wrap footer-inner"><span>© {new Date().getFullYear()} Білім туралы · Білім туралы ойлар мен зерттеулер</span><span>Тәуелсіз авторлық жоба</span></div></footer></body></html>
