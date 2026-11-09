@@ -2,7 +2,20 @@
 import Base from '../layouts/Base.astro';
 import EntryList from '../components/EntryList.astro';
 import {getCollection} from 'astro:content';
-const essays=(await getCollection('essays',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
-const notes=(await getCollection('notes',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+const newest=(a:any,b:any)=>b.data.date.getTime()-a.data.date.getTime();
+const essays=(await getCollection('essays',({data})=>!data.draft)).sort(newest);
+const notes=(await getCollection('notes',({data})=>!data.draft)).sort(newest);
+const resources=(await getCollection('resources',({data})=>!data.draft)).sort(newest);
+const featured=essays[0];
+const recent=essays.filter(e=>e.id!==featured?.id).slice(0,3);
+const gradeLabel=(g:string)=>g==='Барлығы'?'Барлық сыныптар':/^\d+$/.test(g)?`${g}-сынып`:g;
 ---
-<Base title="Басты бет"><div class="wrap"><section class="hero"><span class="eyebrow">Білім · Зерттеу · Тәжірибе</span><h1>Білім туралы ойлануға арналған кеңістік.</h1><p>Білім беру саясаты, мектеп тәжірибесі және педагогтердің кәсіби дербестігі туралы эсселер, зерттеу жазбалары мен пайдалы материалдар.</p></section>{essays.length>0&&<section class="feature"><span class="eyebrow">Таңдаулы эссе</span><h2><a href={`/essays/${essays[0].id}/`}>{essays[0].data.title} ↗</a></h2><p>{essays[0].data.description}</p><a class="pill-link" href={`/essays/${essays[0].id}/`}>Эссені оқу →</a></section>}<section class="section"><div class="section-head"><h2>Соңғы эсселер</h2><a href="/essays/">Барлық эсселер →</a></div><EntryList entries={essays.slice(0,4)} base="essays"/></section><section class="section"><div class="section-head"><h2>Зерттеу жазбалары</h2><a href="/notes/">Барлық жазбалар →</a></div><EntryList entries={notes.slice(0,3)} base="notes"/></section><section class="section"><div class="section-head"><h2>Мұғалімдерге арналған материалдар</h2><a href="/resources/">Кітапханаға өту →</a></div><p class="lede">Дереккөздерді талдау, сыни ойлау және дәлелді пікір қалыптастыруға арналған ресурстар.</p></section></div></Base>
+<Base title="Басты бет">
+<div class="wrap home">
+  <section class="hero"><span class="eyebrow">Білім · Зерттеу · Тәжірибе</span><h1>Білім туралы ойлануға арналған кеңістік.</h1><p>Білім беру саясаты, мектеп тәжірибесі және педагогтердің кәсіби дербестігі туралы эсселер, зерттеу жазбалары мен пайдалы материалдар.</p><a class="text-link hero-link" href="/essays/">Эсселерді оқу <span aria-hidden="true">↗</span></a></section>
+  {featured&&<section class="feature" aria-labelledby="featured-title"><span class="eyebrow">Таңдаулы эссе</span><h2 id="featured-title"><a href={`/essays/${featured.id}/`}>{featured.data.title} <span aria-hidden="true">↗</span></a></h2><p>{featured.data.description}</p><a class="text-link" href={`/essays/${featured.id}/`}>Эссені оқу <span aria-hidden="true">↗</span></a></section>}
+  {recent.length>0&&<section class="section" aria-labelledby="recent-title"><div class="section-head"><h2 id="recent-title">Соңғы эсселер</h2><a href="/essays/">Барлық эсселер <span aria-hidden="true">↗</span></a></div><EntryList entries={recent} base="essays"/></section>}
+  <section class="section" aria-labelledby="notes-title"><div class="section-head"><h2 id="notes-title">Зерттеу жазбалары</h2><a href="/notes/">Барлық жазбалар <span aria-hidden="true">↗</span></a></div>{notes.length?<EntryList entries={notes.slice(0,2)} base="notes"/>:<p class="section-empty">Зерттеу жазбалары жақында жарияланады.</p>}</section>
+  <section class="section" aria-labelledby="resources-title"><div class="section-head"><h2 id="resources-title">Материалдар</h2><a href="/resources/">Барлық материалдар <span aria-hidden="true">↗</span></a></div><p class="section-intro">Дереккөздерді талдау, сыни ойлау және дәлелді пікір қалыптастыруға арналған ресурстар.</p>{resources.length?<div class="resource-preview">{resources.slice(0,3).map(entry=><article class="preview-item"><span class="meta">{gradeLabel(entry.data.grade)} · {entry.data.language} · {entry.data.type}</span><h3>{entry.data.title}</h3><p>{entry.data.description}</p>{entry.data.file&&<a class="text-link" href={entry.data.file} download>Жүктеп алу <span aria-hidden="true">↓</span></a>}</article>)}</div>:<p class="section-empty">Материалдар жақында жарияланады.</p>}</section>
+</div>
+</Base>
